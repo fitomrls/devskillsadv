@@ -1,18 +1,58 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-container fluid>
+    <v-row>
+      <v-col cols="6">
+        <Form></Form>
+      </v-col>
+      <v-col cols="6">
+        <List></List>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <Credits />
+      </v-col>
+    </v-row>
+    <v-snackbar v-model="snackbar" :timeout="6000" top color="success">
+      <p class="title black--text float-left">{{ message }}</p>
+      <v-btn
+        small
+        icon
+        class="success black--text float-right"
+        text
+        @click="snackbar = false"
+        >x</v-btn
+      >
+    </v-snackbar>
+  </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Form from "@/components/Form"
+import List from "@/components/List"
+import Credits from "@/components/Credits"
 
 export default {
-  name: 'HomeView',
+  name: "Home",
+
+  data() {
+    return {
+      snackbar: false,
+      message: "",
+    };
+  },
+
   components: {
-    HelloWorld
-  }
+    Form,
+    List,
+    Credits
+  },
+
+  mounted() {
+    this.$root.$on("message", () => {
+      this.message = "Member registered!"
+      this.snackbar = true
+    })
+  },
 }
 </script>
