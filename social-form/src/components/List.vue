@@ -1,5 +1,14 @@
 <template>
     <v-card dark max-width="100%">
+        <v-idle
+            @idle="onidle"
+            @remind="onremind"
+            :loop="true"
+            :reminders="[10, 15]"
+            :wait="10"
+            :duration="100"
+        />
+
         <v-simple-table fixed-header height="auto">
         <template v-slot:default>
             <thead>
@@ -41,10 +50,18 @@ export default {
 
   methods: {
     ...mapActions(["retrieveMembers"]),
+    onidle() {
+      this.retrieveMembers()
+    },
+    onremind(time) {
+      // alert seconds remaining to 00:00
+      //alert(time);
+    }
   },
 
   computed: {
     ...mapGetters(["members"]),
+
   },
 
   mounted() {
